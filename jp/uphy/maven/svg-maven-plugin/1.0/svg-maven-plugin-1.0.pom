@@ -13,9 +13,10 @@
 
     <properties>
         <github.global.userName/>
+        <github.global.password/>
         <github.repoName>svg-maven-plugin</github.repoName>
-        <github.global.server>github</github.global.server>
         <localrepo.outputDirectory>${project.build.directory}/mvn-repo</localrepo.outputDirectory>
+        <github.branch>refs/heads/mvn-repo</github.branch>
     </properties>
 
     <dependencies>
@@ -93,13 +94,15 @@
                 <artifactId>site-maven-plugin</artifactId>
                 <version>0.12</version>
                 <configuration>
-                    <message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
-                    <noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
-                    <outputDirectory>${localrepo.outputDirectory}</outputDirectory> <!-- matches distribution management repository url above -->
-                    <branch>refs/heads/mvn-repo</branch>                       <!-- remote branch name -->
-                    <includes><include>**/*</include></includes>
-                    <repositoryName>${github.repoName}</repositoryName>      <!-- github repo name -->
-                    <repositoryOwner>${github.global.userName}</repositoryOwner>    <!-- github username  -->
+                    <message>Maven artifacts for ${project.version}</message>
+                    <noJekyll>true</noJekyll>
+                    <outputDirectory>${localrepo.outputDirectory}</outputDirectory>
+                    <branch>${github.branch}</branch>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                    <repositoryName>${github.repoName}</repositoryName>
+                    <repositoryOwner>${github.global.userName}</repositoryOwner>
                 </configuration>
                 <executions>
                     <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
