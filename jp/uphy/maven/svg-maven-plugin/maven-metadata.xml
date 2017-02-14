@@ -3,11 +3,10 @@
   <groupId>jp.uphy.maven</groupId>
   <artifactId>svg-maven-plugin</artifactId>
   <versioning>
-    <latest>1.0</latest>
-    <release>1.0</release>
+    <latest>1.1-SNAPSHOT</latest>
     <versions>
-      <version>1.0</version>
+      <version>1.1-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20170214190458</lastUpdated>
+    <lastUpdated>20170214190521</lastUpdated>
   </versioning>
 </metadata>
