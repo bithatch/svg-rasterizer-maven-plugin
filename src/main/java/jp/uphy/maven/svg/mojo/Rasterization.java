@@ -1,7 +1,6 @@
 package jp.uphy.maven.svg.mojo;
 
 
-import jp.uphy.maven.svg.model.AndroidScreenResolution;
 import jp.uphy.maven.svg.model.ImageFormat;
 import jp.uphy.maven.svg.model.SvgTool;
 import org.apache.batik.apps.rasterizer.DestinationType;
@@ -11,6 +10,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
 
+import java.awt.*;
 import java.io.File;
 import java.text.MessageFormat;
 
@@ -18,34 +18,16 @@ import static jp.uphy.maven.svg.mojo.Constants.DEFAULT_OUTPUT_FORMAT;
 
 
 class Rasterization {
-    static Rasterization create(File input, File output, int width, int height, String format) {
-        return new Rasterization(input, output, width, height, format);
-    }
-
-    static Rasterization create(File input, File resDir, String outputName, int width, int height, AndroidScreenResolution resolution, String format) {
-        double scale = resolution.getScale();
-        int resWidth = (int)Math.ceil(width * scale);
-        int resHeight = (int)Math.ceil(height * scale);
-
-        File drawableDirectory = new File(resDir, Constants.DRAWABLE_OUTPUT_PREFIX + resolution.name().toLowerCase()); //$NON-NLS-1$
-        File output = new File(drawableDirectory, outputName + DEFAULT_OUTPUT_FORMAT); //$NON-NLS-1$
-
-        return create(input, output, resWidth, resHeight, format);
-    }
-
-
     private File input;
     private File output;
-    private int width;
-    private int height;
+    private Dimension size;
     private String extension;
 
 
-    private Rasterization(File input, File output, int width, int height, String extension) {
+    Rasterization(File input, File output, Dimension size, String extension) {
         this.input = input;
         this.output = output;
-        this.width = width;
-        this.height = height;
+        this.size = size;
         this.extension = (extension != null) ? extension : DEFAULT_OUTPUT_FORMAT;
     }
 
@@ -53,7 +35,7 @@ class Rasterization {
         try {
             log.info(MessageFormat.format("Rasterizing[{0}]", this));
             createOutputDirectory(output.getParentFile());
-            svgTool.rasterize(input, output, width, height, determineDestinationType(extension));
+            svgTool.rasterize(input, output, size.width, size.height, determineDestinationType(extension));
         } catch (SVGConverterException e) {
             throw new MojoExecutionException(MessageFormat.format("Failure to rasterize : {0}", output));
         }
@@ -88,8 +70,7 @@ class Rasterization {
         return "Rasterization{" +
                 "input=" + input +
                 ", output=" + output +
-                ", width=" + width +
-                ", height=" + height +
+                ", size=" + size.width + "x" + size.height +
                 ", extension='" + extension + '\'' +
                 '}';
     }

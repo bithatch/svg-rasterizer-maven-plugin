@@ -1,11 +1,12 @@
 package jp.uphy.maven.svg.mojo;
 
 
-class Constants {
-    static final String MOJO_NAME_RASTERIZE = "rasterize";
-    static final String MOJO_NAME_RASTERIZE_ANDROID = MOJO_NAME_RASTERIZE + "-android";
-    static final String DRAWABLE_OUTPUT_PREFIX = "drawable-";
+public class Constants {
+    public static final String MOJO_NAME_PREFIX = "rasterize";
+    static final String MOJO_NAME_RASTERIZE_IMAGE = MOJO_NAME_PREFIX + "-image";
+    static final String MOJO_NAME_RASTERIZE_DIRECTORY = MOJO_NAME_PREFIX + "-directory";
     static final String DEFAULT_OUTPUT_FORMAT = "png";
-    static final String DEFAULT_ANDROID_RESOLUTIONS = "LDPI,MDPI,HDPI,XHDPI,XXHDPI";
-    static final String DEFAULT_ANDROID_RES_DIRECTORY = "res";
+    static final String DEFAULT_PATH_PATTERN = "{name}-{width}x{height}{ext}";
+
+    private Constants() { /* NO INSTANCES ALLWOED */ }
 }

@@ -33,28 +33,14 @@ import java.util.List;
 /**
  * @author Yuhi Ishikura
  */
-public abstract class AbstractRasterizeMojo<OUTPUT extends Output> extends AbstractMojo {
+abstract class AbstractRasterizeMojo extends AbstractMojo {
     private final SvgTool svgTool;
 
     @Parameter(required = true)
-    private File input;
+    private File destDir;
 
-    /**
-     * Output definitions.
-     * <pre>
-     * <outputs>
-     *     <output>
-     *         <path>target</path>
-     *         <width>128</width>
-     *         <height>128</height>
-     *         <format>png</format>
-     *     </output>
-     * </outputs>
-     * </pre>
-     */
     @Parameter
-    private List<OUTPUT> outputs;
-
+    private List<Output> outputs;
 
     AbstractRasterizeMojo() {
         this.svgTool = new SvgTool();
@@ -62,30 +48,48 @@ public abstract class AbstractRasterizeMojo<OUTPUT extends Output> extends Abstr
 
     @Override
     public final void execute() throws MojoExecutionException, MojoFailureException {
-        assertInputExists();
-        rasterize(input.isDirectory() ? createRasterizations(input.listFiles()) : createRasterizations(input));
+        validate();
+        rasterize(createRasterizations(createInputs()));
     }
 
-    private void assertInputExists() throws MojoFailureException {
-        if (input == null) {
-            throw new MojoFailureException(MessageFormat.format("''{0}'' is not specified.", "input"));
+    protected void validate() throws MojoFailureException {
+        if (destDir == null) {
+            failure("''{0}'' is not specified.", "destDir");
         }
-        if (!input.exists()) {
-            throw new MojoFailureException(MessageFormat.format("''{0}'' doesn''t exist: {1}", "input", input));
+        if (destDir.exists() && !destDir.isDirectory()) {
+            failure("''{0}'' exists but is no directory", "destDir");
         }
     }
 
-    private Collection<Rasterization> createRasterizations(File... inFiles) throws MojoFailureException {
-        List<Rasterization> rasterizations = new ArrayList<Rasterization>(inFiles.length);
+    private Collection<Rasterization> createRasterizations(List<File> inputs) throws MojoFailureException {
+        List<Rasterization> rasterizations = new ArrayList<Rasterization>(inputs.size());
 
-        for (File inFile : inFiles) {
-            for (OUTPUT output : outputs) {
-                rasterizations.addAll(createRasterizations(inFile, output));
+        System.out.println(outputs);
+
+        for (File inFile : inputs) {
+            for (AbstractOutput output : outputs) {
+                output.fillWithDefaults(createUserDefaults());
+                rasterizations.addAll(createRasterizations(inFile, destDir, output));
             }
         }
 
         return rasterizations;
     }
+
+    private Collection<Rasterization> createRasterizations(File inFile, File destDir, AbstractOutput output) throws MojoFailureException {
+        Collection<Rasterization> rasterizations = new ArrayList<Rasterization>();
+
+        for (File outFile : output.getOutFiles(destDir, inFile)) {
+            rasterizations.add(new Rasterization(inFile, Replacers.replaceAll(outFile, inFile, output), output.getSize(), output.getFormat()));
+        }
+
+        return rasterizations;
+    }
+
+
+    protected abstract List<File> createInputs();
+    protected abstract AbstractOutput createUserDefaults();
+
 
     private void rasterize(Iterable<Rasterization> rasterizations) throws MojoFailureException, MojoExecutionException {
         Log log = getLog();
@@ -94,10 +98,12 @@ public abstract class AbstractRasterizeMojo<OUTPUT extends Output> extends Abstr
         }
     }
 
+    static void failure(String pattern, Object... arguments) throws MojoFailureException {
+        throw new MojoFailureException(MessageFormat.format(pattern, arguments));
+    }
+
     static String getFilenameOf(File file) {
         final int i = file.getName().lastIndexOf('.');
         return file.getName().substring(0, i);
     }
-
-    abstract Collection<Rasterization> createRasterizations(File inFile, OUTPUT output) throws MojoFailureException;
 }
