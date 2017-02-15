@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2014 uphy.jp
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,21 +43,21 @@ public class SvgTool {
      *
      * @param svgFile         SVGファイル
      * @param output          出力ファイル
-     * @param maximumWidth    最大の画像サイズ
-     * @param maximumHeight   最大の画像サイズ
+     * @param width    最大の画像サイズ
+     * @param height   最大の画像サイズ
      * @param destinationType 出力ファイルタイプ
      * @throws org.apache.batik.apps.rasterizer.SVGConverterException 不正なSVGが与えられた場合
      */
-    public void rasterize(File svgFile, File output, int maximumWidth, int maximumHeight, DestinationType destinationType) throws SVGConverterException {
-        if (maximumWidth > maximumHeight) {
-            this.svgConverter.setWidth(maximumWidth);
+    public void rasterize(File svgFile, File output, int width, int height, float quality, DestinationType destinationType) throws SVGConverterException {
+        if (width > height) {
+            this.svgConverter.setWidth(width);
         } else {
-            this.svgConverter.setHeight(maximumHeight);
+            this.svgConverter.setHeight(height);
         }
         this.svgConverter.setDestinationType(destinationType);
         this.svgConverter.setSources(new String[] {svgFile.getAbsolutePath()});
+        this.svgConverter.setQuality(quality);
         this.svgConverter.setDst(output);
-
         final PrintStream oldSysOut = System.out;
         System.setOut(new PrintStream(new ByteArrayOutputStream())); // 不要な出力が出るので抑止
         try {

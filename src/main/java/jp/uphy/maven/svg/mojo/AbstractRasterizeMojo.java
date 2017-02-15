@@ -65,8 +65,6 @@ abstract class AbstractRasterizeMojo extends AbstractMojo {
     private Collection<Rasterization> createRasterizations(List<File> inputs) throws MojoFailureException {
         List<Rasterization> rasterizations = new ArrayList<Rasterization>(inputs.size());
 
-        System.out.println(outputs);
-
         for (File inFile : inputs) {
             for (AbstractOutput output : outputs) {
                 output.fillWithDefaults(createDefaults());
@@ -81,7 +79,7 @@ abstract class AbstractRasterizeMojo extends AbstractMojo {
         Collection<Rasterization> rasterizations = new ArrayList<Rasterization>();
 
         for (File outFile : output.getOutFiles(destDir, inFile)) {
-            rasterizations.add(new Rasterization(inFile, Replacers.replaceAll(outFile, inFile, output), output.getSize(), output.getFormat()));
+            rasterizations.add(new Rasterization(inFile, Replacers.replaceAll(outFile, inFile, output), output));
         }
 
         return rasterizations;

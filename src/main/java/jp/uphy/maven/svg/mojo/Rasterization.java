@@ -21,21 +21,23 @@ class Rasterization {
     private File input;
     private File output;
     private Dimension size;
+    private float quality;
     private String extension;
 
 
-    Rasterization(File input, File output, Dimension size, String extension) {
-        this.input = input;
-        this.output = output;
-        this.size = size;
-        this.extension = (extension != null) ? extension : DEFAULT_OUTPUT_FORMAT;
+    Rasterization(File inFile, File outFile, AbstractOutput output) {
+        this.input = inFile;
+        this.output = outFile;
+        this.size = output.getSize();
+        this.quality = output.getQuality();
+        this.extension = (output.getFormat() != null) ? output.getFormat() : DEFAULT_OUTPUT_FORMAT;
     }
 
     void execute(SvgTool svgTool, Log log) throws MojoExecutionException, MojoFailureException {
         try {
             log.info(MessageFormat.format("Rasterizing[{0}]", this));
             createOutputDirectory(output.getParentFile());
-            svgTool.rasterize(input, output, size.width, size.height, determineDestinationType(extension));
+            svgTool.rasterize(input, output, size.width, size.height, quality, determineDestinationType(extension));
         } catch (SVGConverterException e) {
             throw new MojoExecutionException(MessageFormat.format("Failure to rasterize : {0}", output));
         }
