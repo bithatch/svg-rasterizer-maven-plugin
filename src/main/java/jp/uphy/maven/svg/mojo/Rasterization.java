@@ -46,7 +46,7 @@ class Rasterization {
         this.output = output;
         this.width = width;
         this.height = height;
-        this.extension = extension;
+        this.extension = (extension != null) ? extension : DEFAULT_OUTPUT_FORMAT;
     }
 
     void execute(SvgTool svgTool, Log log) throws MojoExecutionException, MojoFailureException {
