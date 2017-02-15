@@ -42,6 +42,7 @@ abstract class AbstractRasterizeMojo extends AbstractMojo {
     @Parameter
     private List<Output> outputs;
 
+
     AbstractRasterizeMojo() {
         this.svgTool = new SvgTool();
     }
@@ -68,7 +69,7 @@ abstract class AbstractRasterizeMojo extends AbstractMojo {
 
         for (File inFile : inputs) {
             for (AbstractOutput output : outputs) {
-                output.fillWithDefaults(createUserDefaults());
+                output.fillWithDefaults(createDefaults());
                 rasterizations.addAll(createRasterizations(inFile, destDir, output));
             }
         }
@@ -88,7 +89,7 @@ abstract class AbstractRasterizeMojo extends AbstractMojo {
 
 
     protected abstract List<File> createInputs();
-    protected abstract AbstractOutput createUserDefaults();
+    protected abstract AbstractOutput createDefaults();
 
 
     private void rasterize(Iterable<Rasterization> rasterizations) throws MojoFailureException, MojoExecutionException {

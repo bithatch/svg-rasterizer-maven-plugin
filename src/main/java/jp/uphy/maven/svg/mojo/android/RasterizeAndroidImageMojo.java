@@ -34,7 +34,7 @@ public class RasterizeAndroidImageMojo extends AbstractRasterizeImageMojo {
     }
 
     @Override
-    protected Output createUserDefaults() {
+    protected Output createDefaults() {
         return defaults;
     }
 }

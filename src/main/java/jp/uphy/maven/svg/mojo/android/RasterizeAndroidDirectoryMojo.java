@@ -34,7 +34,7 @@ public class RasterizeAndroidDirectoryMojo extends AbstractRasterizeDirectoryMoj
     }
 
     @Override
-    protected Output createUserDefaults() {
+    protected Output createDefaults() {
         return defaults;
     }
 }
