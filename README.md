@@ -23,7 +23,7 @@ See also example [pom.xml](https://github.com/uphy/svg-maven-plugin/blob/develop
 <pluginRepositories>
     <pluginRepository>
         <id>svg-rasterizer-maven-plugin-mvn-repo</id>
-        <url>https://raw.githubusercontent.com/Argelbargel/svg-maven-plugin/mvn-repo/</url>
+        <url>https://raw.githubusercontent.com/Argelbargel/svg-rasterizer-maven-plugin/mvn-repo/</url>
     </pluginRepository>
 </pluginRepositories>
 ```
