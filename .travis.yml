@@ -17,4 +17,4 @@ deploy:
   on:
     tags: true
   file:
-    - "./target/svg-maven-plugin-$TRAVIS_TAG.jar"
+    - "./target/svg-rasterizer-maven-plugin-$TRAVIS_TAG.jar"
