@@ -10,6 +10,8 @@ This implementation is basically a rewrite of [uphy/svg-maven-plugin](https://gi
 It uses the same rasterizer-core but the maven-mojo's were re-written to support easier an more flexible configuration
 which i needed for my projects. There will not be much development here after the initial-release.  
 
+[![Build Status](https://travis-ci.org/Argelbargel/svg-maven-plugin.svg?branch=master)](https://travis-ci.org/Argelbargel/svg-maven-plugin)
+
 ## Setup
 
 Edit your pom.xml as follows.
