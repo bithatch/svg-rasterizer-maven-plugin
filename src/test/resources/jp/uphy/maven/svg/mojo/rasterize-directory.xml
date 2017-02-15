@@ -20,7 +20,7 @@
         <plugins>
             <plugin>
                 <groupId>argelbargel.maven</groupId>
-                <artifactId>svg-maven-plugin</artifactId>
+                <artifactId>svg-rasterizer-maven-plugin</artifactId>
                 <version>1.0-SNAPSHOT</version>
                 <configuration>
                     <inputDir>src/test/resources/jp/uphy/maven/svg/mojo/images/</inputDir>

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2013 uphy.jp
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,10 +35,6 @@ public enum ImageFormat {
     ImageFormat(DestinationType type, String... extensions) {
         this.destinationType = type;
         this.extensions = extensions;
-    }
-
-    public String getPrimaryExtension() {
-        return extensions[0];
     }
 
     public static ImageFormat fromExtension(String extension) {
