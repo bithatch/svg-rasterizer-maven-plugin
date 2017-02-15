@@ -7,7 +7,7 @@
     <name>SVG-Rasterizer Maven plugin</name>
 
     <scm>
-        <connection>scm:https://github.com/Argelbargel/svg-maven-plugin.git</connection>
+        <connection>scm:https://github.com/Argelbargel/svg-rasterizer-maven-plugin.git</connection>
         <tag>1.0-SNAPSHOT</tag>
     </scm>
 
@@ -15,7 +15,7 @@
         <mavenVersion>3.3.9</mavenVersion>
         <github.global.userName/>
         <github.global.password/>
-        <github.repoName>svg-maven-plugin</github.repoName>
+        <github.repoName>svg-rasterizer-maven-plugin</github.repoName>
         <localrepo.outputDirectory>${project.build.directory}/mvn-repo</localrepo.outputDirectory>
         <github.branch>refs/heads/mvn-repo</github.branch>
         <maven.compiler.source>1.6</maven.compiler.source>
