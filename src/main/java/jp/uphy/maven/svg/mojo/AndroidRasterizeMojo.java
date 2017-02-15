@@ -23,73 +23,50 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
-import java.util.List;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import static jp.uphy.maven.svg.mojo.Constants.MOJO_NAME_RASTERIZE_ANDROID;
 
 
-/**
- * Goal which touches a timestamp file.
- */
-@Mojo(name = "rasterize-android", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
-public class AndroidRasterizeMojo extends AbstractRasterizeMojo {
-
-    static final String DEFAULT_RESOLUTIONS = "LDPI,MDPI,HDPI,XHDPI,XXHDPI";
-    static final String DEFAULT_RES_DIRECTORY = "res";
-    /**
-     * SVG file input.
-     */
-    @Parameter(required = true)
-    private File input;
-    /**
-     * The maximum width of the output image.
-     */
-    @Parameter(required = true)
-    private int width;
-    /**
-     * The maximum width of the output image.
-     */
-    @Parameter(required = true)
-    private int height;
-    /**
-     * Android "res" directory.
-     */
-    @Parameter(defaultValue = DEFAULT_RES_DIRECTORY)
+@Mojo(name = MOJO_NAME_RASTERIZE_ANDROID, defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
+public class AndroidRasterizeMojo extends AbstractRasterizeMojo<AndroidOutput> {
+    @Parameter
     private File resDirectory;
-    /**
-     * Output file format(png,jpg,pdf,tiff).
-     */
-    @Parameter(defaultValue = DEFAULT_FORMAT)
-    private String format;
-    /**
-     * Output resolutions.
-     * <ul>
-     * <li>LDPI</li>
-     * <li>MDPI</li>
-     * <li>HDPI</li>
-     * <li>XHDPI</li>
-     * <li>XXHDPI</li>
-     * </ul>
-     */
-    @Parameter(defaultValue = DEFAULT_RESOLUTIONS)
-    private List<String> resolutions;
 
     @Override
-    protected void initialize() throws MojoFailureException {
-        assertIsExistingFile("input", this.input);
-        for (String resolution : resolutions) {
-            addRasterization(this, resolution, width, height, input, resDirectory, getFilenameOf(this.input), this.format);
+    Collection<Rasterization> createRasterizations(File inFile, AndroidOutput output) throws MojoFailureException {
+        assertResDirectoryIsDirectory();
+
+        Collection<Rasterization> rasterizations = new ArrayList<Rasterization>(AndroidScreenResolution.values().length);
+        for (String resolution : output.resolutions) {
+            AndroidScreenResolution res = AndroidScreenResolution.valueOf(resolution);
+            rasterizations.add(
+                    Rasterization.create(
+                            inFile, determineResDirectory(output), getFilenameOf(inFile),
+                            output.width, output.height, res,
+                            output.format));
+        }
+
+        return rasterizations;
+    }
+
+    private void assertResDirectoryIsDirectory() throws MojoFailureException {
+        if (resDirectory != null && !resDirectory.isDirectory()) {
+            throw new MojoFailureException(MessageFormat.format("''{0}'' is not a directory!", "resDirectory"));
         }
     }
 
-    static void addRasterization(AbstractRasterizeMojo mojo, String resolutionString, int width, int height, File input, File resDirectory, String outputName, String format) {
-        final AndroidScreenResolution resolution = AndroidScreenResolution.valueOf(resolutionString);
-        final double scale = resolution.getScale();
-        final int maximumWidth = (int)Math.ceil(width * scale);
-        final int maximumHeight = (int)Math.ceil(height * scale);
+    private File determineResDirectory(AndroidOutput output) throws MojoFailureException {
+        if (output.resDirectory != null) {
+            return output.resDirectory;
+        }
 
-        final File drawableDirectory = new File(resDirectory, "drawable-" + resolution.name().toLowerCase()); //$NON-NLS-1$
-        final File outputFile = new File(drawableDirectory, outputName + ".png"); //$NON-NLS-1$
+        if (resDirectory == null) {
+            throw new MojoFailureException(MessageFormat.format("neither ''{0}'' nor ''{1}'' is set!", "resDirectory", "output.resDirectory"));
+        }
 
-        mojo.addRasterization(input, outputFile, maximumWidth, maximumHeight, format);
+        return resDirectory;
     }
-
 }

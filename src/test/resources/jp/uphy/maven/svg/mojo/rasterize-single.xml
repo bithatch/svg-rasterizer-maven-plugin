@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>argelbargel.maven</groupId>
+    <artifactId>svg-maven-plugin-test</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Test MyMojo</name>
+
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.11</version>
+        <scope>test</scope>
+    </dependency>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>argelbargel.maven</groupId>
+                <artifactId>svg-maven-plugin</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <configuration>
+                    <input>src/test/resources/jp/uphy/maven/svg/mojo/images/image1.svg</input>
+                    <destDir>target/images</destDir>
+                    <outputs>
+                        <output>
+                            <width>48</width>
+                            <height>48</height>
+                        </output>
+                        <output>
+                            <width>32</width>
+                            <height>32</height>
+                            <format>jpg</format>
+                        </output>
+                        <output>
+                            <path>target/images/myimage.png</path>
+                            <width>24</width>
+                            <height>24</height>
+                            <format>png</format>
+                        </output>
+                    </outputs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

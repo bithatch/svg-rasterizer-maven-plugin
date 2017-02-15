@@ -1,16 +1,19 @@
 package jp.uphy.maven.svg.model;
 
-public enum AndroidScreenResolution {
 
+import org.codehaus.plexus.util.StringUtils;
+
+
+public enum AndroidScreenResolution {
     LDPI(0.75),
     MDPI(1),
     HDPI(1.5),
     XHDPI(2),
     XXHDPI(3);
 
-    private double scale;
+    private final double scale;
 
-    private AndroidScreenResolution(double scale) {
+    AndroidScreenResolution(double scale) {
         this.scale = scale;
     }
 

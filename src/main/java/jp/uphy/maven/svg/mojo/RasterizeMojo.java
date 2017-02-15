@@ -23,58 +23,45 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
 import java.text.MessageFormat;
-import java.util.List;
+import java.util.Collection;
+
+import static java.util.Collections.singletonList;
+import static jp.uphy.maven.svg.mojo.Constants.DEFAULT_OUTPUT_FORMAT;
+import static jp.uphy.maven.svg.mojo.Constants.MOJO_NAME_RASTERIZE;
 
 
-/**
- * Goal which touches a timestamp file.
- */
-@Mojo(name = "rasterize", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
-public class RasterizeMojo extends AbstractRasterizeMojo {
-
-    /**
-     * SVG file input.
-     */
-    @Parameter(required = true)
-    private File input;
-    /**
-     * Output definitions.
-     * <pre>
-     * <outputs>
-     *     <output>
-     *         <path>target</path>
-     *         <width>128</width>
-     *         <height>128</height>
-     *         <format>png</format>
-     *     </output>
-     * </outputs>
-     * </pre>
-     */
+@Mojo(name = MOJO_NAME_RASTERIZE, defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
+public class RasterizeMojo extends AbstractRasterizeMojo<Output> {
     @Parameter
-    private List<Output> outputs;
+    private File destDir;
 
     @Override
-    protected void initialize() throws MojoFailureException {
-        assertIsExistingFile("input", this.input);
-        for (Output output : outputs) {
-            addRasterization(this.input, output.path, output.width, output.height, output.format);
+    Collection<Rasterization> createRasterizations(File inFile, Output output) throws MojoFailureException {
+        ensureDestDirIsDirectory();
+        return singletonList(
+                Rasterization.create(
+                        inFile,
+                        determineOutFile(inFile, output),
+                        output.width, output.height,
+                        output.format));
+    }
+
+    private void ensureDestDirIsDirectory() throws MojoFailureException {
+        if (destDir != null && destDir.exists() && !destDir.isDirectory()) {
+            throw new MojoFailureException(MessageFormat.format("''{0}'' is not a directory!", "destDir"));
         }
     }
 
-    public static class Output {
-        @Parameter(required = true)
-        File path;
-        @Parameter(required = true)
-        int width;
-        @Parameter(required = true)
-        int height;
-        @Parameter(defaultValue = "png")
-        String format;
-
-        @Override
-        public String toString() {
-            return MessageFormat.format("Output'{'path=''{0}'', size=''{1}x{2}'', format=''{3}'''}'", path, width, height, format);
+    private File determineOutFile(File inFile, Output output) throws MojoFailureException {
+        if (output.path != null) {
+            return output.path;
         }
-    }
 
+        if (destDir == null) {
+            throw new MojoFailureException(MessageFormat.format("neither ''{0}'' nor ''{1}'' is set!", "destDir", "output.path"));
+        }
+
+        String ext = (output.format != null) ? output.format : DEFAULT_OUTPUT_FORMAT;
+        return new File(destDir, getFilenameOf(inFile) + "-" + output.width + "x" + output.height + "." + ext);
+    }
 }
