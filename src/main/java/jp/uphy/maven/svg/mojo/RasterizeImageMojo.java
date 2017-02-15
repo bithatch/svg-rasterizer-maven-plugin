@@ -32,7 +32,7 @@ public class RasterizeImageMojo extends AbstractRasterizeImageMojo {
     }
 
     @Override
-    public Output createUserDefaults() {
+    public Output createDefaults() {
         return defaults;
     }
 }

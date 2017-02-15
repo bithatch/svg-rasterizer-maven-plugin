@@ -18,7 +18,7 @@ public class RasterizeDirectoryMojo extends AbstractRasterizeDirectoryMojo {
     }
 
     @Override
-    public Output createUserDefaults() {
+    public Output createDefaults() {
         return defaults;
     }
 }
