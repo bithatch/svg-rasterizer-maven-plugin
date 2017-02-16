@@ -17,9 +17,12 @@ package jp.uphy.maven.svg.mojo.android;
  */
 
 import jp.uphy.maven.svg.mojo.AbstractRasterizeImageMojo;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+
+import java.util.Collection;
 
 import static jp.uphy.maven.svg.mojo.android.Constants.MOJO_NAME_RASTERIZE_ANDROID_IMAGE;
 
@@ -31,6 +34,13 @@ public class RasterizeAndroidImageMojo extends AbstractRasterizeImageMojo {
 
     public RasterizeAndroidImageMojo() {
         super();
+    }
+
+    @Override
+    protected void validate(Collection outputs) throws MojoFailureException {
+        if (outputs.size() != 1) {
+            failure("there must be exactly one output-definition in ''{0}''", "outputs");
+        }
     }
 
     @Override

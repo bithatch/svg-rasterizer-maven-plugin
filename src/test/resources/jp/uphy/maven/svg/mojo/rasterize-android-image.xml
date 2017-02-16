@@ -30,19 +30,6 @@
                             <width>48</width>
                             <height>48</height>
                         </output>
-                        <output>
-                            <name>{name}-{width}x{height}</name>
-                            <width>32</width>
-                            <height>32</height>
-                            <resolutions>
-                                <resolution>LDPI</resolution>
-                            </resolutions>
-                        </output>
-                        <output>
-                            <resDir>argelbargel</resDir>
-                            <width>24</width>
-                            <height>24</height>
-                        </output>
                     </outputs>
                 </configuration>
             </plugin>

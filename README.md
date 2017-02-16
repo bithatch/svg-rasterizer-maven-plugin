@@ -62,7 +62,7 @@ Goal: rasterize-image
     <destDir>output/</destDir>
     <outputs>
         <output>
-            <!-- Output file path. (Optiona, default: {name}-{width}x{height}{ext} -->
+            <!-- Output file path. [Optiona, default: {name}-{width}x{height}{ext}] -->
             <path>sample128.png</path>
             <!-- width of output image. [Required] -->
             <width>128</width>
@@ -142,7 +142,7 @@ Goal: rasterize-directory
     <destDir>output/</destDir>
     <outputs>
         <output>
-            <!-- output-path (Optional, default: {name}-{width}-{height}{ext}) -->
+            <!-- output-path [Optional, default: {name}-{width}-{height}{ext}] -->
             <path>{width}x{height}/{name}{ext}</path>
             <width>128</width>
             <height>128</height>
@@ -232,9 +232,9 @@ Goal: rasterize-android-batch
     <destDir>output/</destDir>
     <outputs>
         <output>
-            <!-- width of output image. [Required] -->
+            <!-- width of output image (this width is used for MDPI, other outputs get scaled accordingly). [Required] -->
             <width>128</width>
-            <!-- height of output image. [Required] -->
+            <!-- height of output image (this width is used for MDPI, other outputs get scaled accordingly). [Required] -->
             <height>128</height>
             <!-- "res" directory of Android. [Optional, default:res] -->
             <resDirectory>android/res</resDirectory>

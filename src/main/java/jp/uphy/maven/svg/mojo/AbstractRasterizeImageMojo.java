@@ -5,6 +5,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
@@ -19,7 +20,8 @@ public abstract class AbstractRasterizeImageMojo extends AbstractRasterizeMojo {
     }
 
     @Override
-    protected void validate() throws MojoFailureException {
+    protected void validate(Collection outputs) throws MojoFailureException {
+        super.validate(outputs);
         if (inputFile == null || !inputFile.exists() || !inputFile.isFile()) {
             failure("''{0}'' is does not exist or is no file", "inputFile");
         }

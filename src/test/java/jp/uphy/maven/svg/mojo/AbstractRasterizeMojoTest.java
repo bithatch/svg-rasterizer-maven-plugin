@@ -53,16 +53,4 @@ public abstract class AbstractRasterizeMojoTest extends AbstractMojoTestCase {
             }
         }
     }
-
-    protected void assertFilesExist(String... fileNames) throws InterruptedException {
-        for (String fileName : fileNames) {
-            assertFileExists(fileName);
-        }
-    }
-
-    private void assertFileExists(String fileName) {
-        File file = new File(OUTPUT_DIR, fileName);
-        assertTrue(file + " does not exist", file.exists());
-        assertTrue(file + " is not a file", file.isFile());
-    }
 }

@@ -6,14 +6,17 @@ import jp.uphy.maven.svg.mojo.AbstractOutput;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static jp.uphy.maven.svg.mojo.android.Constants.DEFAULT_ANDROID_RESOLUTIONS;
 import static jp.uphy.maven.svg.mojo.android.Constants.DEFAULT_ANDROID_RES_DIR;
 import static jp.uphy.maven.svg.mojo.android.Constants.DEFAULT_NAME_PATTERN;
+import static jp.uphy.maven.svg.mojo.android.Constants.DRAWABLE_OUTPUT_PREFIX;
 import static jp.uphy.maven.svg.mojo.android.Constants.OUTPUT_FORMAT;
 
 
@@ -38,22 +41,36 @@ public class Output extends AbstractOutput {
     private List<String> resolutions;
 
     @Override
+    protected Dimension getSize(File outFile) {
+        for (String res : resolutions) {
+            if (outFile.getPath().contains(DRAWABLE_OUTPUT_PREFIX + res.toLowerCase())) {
+                double scale = AndroidScreenResolution.valueOf(res).getScale();
+                return new Dimension((int) Math.ceil(this.width * scale),  (int) Math.ceil(this.height * scale));
+            }
+        }
+
+        throw new NoSuchElementException("could not find a matching dimension for out-file " + outFile);
+    }
+
+    @Override
     protected String getFormat() {
         return OUTPUT_FORMAT;
     }
 
+    @Override
     protected Collection<File> getOutFiles(File destDir, File inFile) throws MojoFailureException {
         ensureValidValues();
 
         Collection<File> outFiles = new ArrayList<File>(resolutions.size());
         for (String res : resolutions) {
             AndroidScreenResolution resolution = AndroidScreenResolution.valueOf(res);
-            File drawableDirectory = new File(new File(destDir, resDir), jp.uphy.maven.svg.mojo.android.Constants.DRAWABLE_OUTPUT_PREFIX + resolution.name().toLowerCase()); //$NON-NLS-1$
+            File drawableDirectory = new File(new File(destDir, resDir), DRAWABLE_OUTPUT_PREFIX + resolution.name().toLowerCase()); //$NON-NLS-1$
             outFiles.add(new File(drawableDirectory, name + "." + getFormat()));
         }
 
         return outFiles;
     }
+
 
     private void ensureValidValues() {
         if (name == null) {

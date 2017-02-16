@@ -10,27 +10,27 @@ import static jp.uphy.maven.svg.mojo.AbstractRasterizeMojo.getFilenameOf;
 enum Replacers {
     WIDTH("width", new Value() {
         @Override
-        public Object get(File inFile, AbstractOutput output) {
-            return output.getSize().width;
+        public Object get(File inFile, File outFile, AbstractOutput output) {
+            return output.getSize(outFile).width;
         }
     }),
     HEIGHT("height", new Value() {
         @Override
-        public Object get(File inFile, AbstractOutput output) {
-            return output.getSize().height;
+        public Object get(File inFile, File outFile, AbstractOutput output) {
+            return output.getSize(outFile).height;
         }
     }),
     NAME("name", new Value() {
 
         @Override
-        public Object get(File inFile, AbstractOutput output) {
+        public Object get(File inFile, File outFile, AbstractOutput output) {
             return getFilenameOf(inFile);
         }
     }),
     EXTENSION("ext", new Value() {
 
         @Override
-        public Object get(File inFile, AbstractOutput output) {
+        public Object get(File inFile, File outFile, AbstractOutput output) {
             return "." + output.getFormat();
         }
     });
@@ -39,7 +39,7 @@ enum Replacers {
     static File replaceAll(File outFile, File inFile, AbstractOutput output) {
         String result = outFile.getAbsolutePath();
         for (Replacers r : values()) {
-            result = r.replace(result, inFile, output);
+            result = r.replace(result, inFile, outFile, output);
         }
 
         return new File(result);
@@ -54,11 +54,11 @@ enum Replacers {
         this.value = value;
     }
 
-    private String replace(String path, File inFile, AbstractOutput output) {
-        return path.replaceAll(Pattern.quote(pattern), String.valueOf(value.get(inFile, output)));
+    private String replace(String path, File inFile, File outFile, AbstractOutput output) {
+        return path.replaceAll(Pattern.quote(pattern), String.valueOf(value.get(inFile, outFile, output)));
     }
 
     private interface Value {
-        Object get(File inFile, AbstractOutput output);
+        Object get(File inFile, File outFile, AbstractOutput output);
     }
 }

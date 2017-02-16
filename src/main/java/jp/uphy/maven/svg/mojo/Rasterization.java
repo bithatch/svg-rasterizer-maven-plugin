@@ -25,12 +25,12 @@ class Rasterization {
     private String extension;
 
 
-    Rasterization(File inFile, File outFile, AbstractOutput output) {
+    Rasterization(File inFile, File outFile, Dimension size, float quality, String format) {
         this.input = inFile;
         this.output = outFile;
-        this.size = output.getSize();
-        this.quality = output.getQuality();
-        this.extension = (output.getFormat() != null) ? output.getFormat() : DEFAULT_OUTPUT_FORMAT;
+        this.size = size;
+        this.quality = quality;
+        this.extension = (format != null) ? format : DEFAULT_OUTPUT_FORMAT;
     }
 
     void execute(SvgTool svgTool, Log log) throws MojoExecutionException, MojoFailureException {

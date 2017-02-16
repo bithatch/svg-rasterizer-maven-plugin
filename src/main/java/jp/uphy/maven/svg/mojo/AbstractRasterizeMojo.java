@@ -49,11 +49,11 @@ abstract class AbstractRasterizeMojo extends AbstractMojo {
 
     @Override
     public final void execute() throws MojoExecutionException, MojoFailureException {
-        validate();
+        validate(outputs);
         rasterize(createRasterizations(createInputs()));
     }
 
-    protected void validate() throws MojoFailureException {
+    protected void validate(Collection outputs) throws MojoFailureException {
         if (destDir == null) {
             failure("''{0}'' is not specified.", "destDir");
         }
@@ -79,16 +79,15 @@ abstract class AbstractRasterizeMojo extends AbstractMojo {
         Collection<Rasterization> rasterizations = new ArrayList<Rasterization>();
 
         for (File outFile : output.getOutFiles(destDir, inFile)) {
-            rasterizations.add(new Rasterization(inFile, Replacers.replaceAll(outFile, inFile, output), output));
+            File outFile1 = Replacers.replaceAll(outFile, inFile, output);
+            rasterizations.add(new Rasterization(inFile, outFile1, output.getSize(outFile1), output.getQuality(), output.getFormat()));
         }
 
         return rasterizations;
     }
 
-
     protected abstract List<File> createInputs();
     protected abstract AbstractOutput createDefaults();
-
 
     private void rasterize(Iterable<Rasterization> rasterizations) throws MojoFailureException, MojoExecutionException {
         Log log = getLog();
@@ -97,7 +96,7 @@ abstract class AbstractRasterizeMojo extends AbstractMojo {
         }
     }
 
-    static void failure(String pattern, Object... arguments) throws MojoFailureException {
+    protected static void failure(String pattern, Object... arguments) throws MojoFailureException {
         throw new MojoFailureException(MessageFormat.format(pattern, arguments));
     }
 

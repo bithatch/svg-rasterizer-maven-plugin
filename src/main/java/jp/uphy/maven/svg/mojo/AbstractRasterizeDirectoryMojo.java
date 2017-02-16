@@ -6,6 +6,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,7 +20,8 @@ public abstract class AbstractRasterizeDirectoryMojo extends AbstractRasterizeMo
     }
 
     @Override
-    protected void validate() throws MojoFailureException {
+    protected void validate(Collection outputs) throws MojoFailureException {
+        super.validate(outputs);
         if (inputDir == null || !inputDir.exists() || !inputDir.isDirectory()) {
             failure("''{0}'' does not exist or is no directory", "inputDir");
         }

@@ -4,8 +4,8 @@ package jp.uphy.maven.svg.mojo;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import java.awt.*;
 import java.io.File;
-import java.text.MessageFormat;
 import java.util.Collection;
 
 import static java.util.Collections.singletonList;
@@ -25,13 +25,18 @@ public class Output extends AbstractOutput {
     @Parameter(defaultValue = DEFAULT_OUTPUT_FORMAT)
     private String format;
 
+    @Override
+    protected Dimension getSize(File outfile) {
+        return new Dimension(width, height);
+    }
 
-    public String getFormat() {
+    @Override
+    protected String getFormat() {
         return format;
     }
 
     @Override
-    public Collection<File> getOutFiles(File destDir, File inFile) throws MojoFailureException {
+    protected Collection<File> getOutFiles(File destDir, File inFile) throws MojoFailureException {
         ensureValidValues();
         String absolutePath = (new File(path).isAbsolute()) ? path : new File(destDir, path).getAbsolutePath();
         return singletonList(new File(absolutePath));
@@ -45,11 +50,6 @@ public class Output extends AbstractOutput {
         if (format == null) {
             format = DEFAULT_OUTPUT_FORMAT;
         }
-    }
-
-    @Override
-    public String toString() {
-        return MessageFormat.format("Output'{'path=''{0}'', size=''{1}x{2}'', format=''{3}'''}'", path, getSize().getWidth(), getSize().getHeight(), getFormat());
     }
 
     @Override
