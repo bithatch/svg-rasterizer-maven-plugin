@@ -7,7 +7,7 @@ Maven SVG rasterization plugin.
 This plugin converts SVG files to raster images like png, jpg. 
 Also supports converting to multiple resolutions for Android.
 
-This implementation is basically a rewrite of [uphy/svg-maven-plugin](https://github.com/uphy/svg-maven-plugin).
+This implementation is based on [uphy/svg-maven-plugin](https://github.com/uphy/svg-maven-plugin).
 It uses the same rasterizer-core but the maven-mojo's were re-written to support easier an more flexible configuration
 which i needed for my projects. There will not be much development here after the initial-release.  
 
