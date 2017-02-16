@@ -62,13 +62,13 @@ Convert a SVG image to raster images.
     <destDir>output/</destDir>
     <outputs>
         <output>
-            <!-- Output file path. [Optiona, default: {name}-{width}x{height}{ext}] -->
+            <!-- Output file path. [Optional, default: {name}-{width}x{height}{ext}] -->
             <path>sample128.png</path>
             <!-- width of output image. [Required] -->
             <width>128</width>
             <!-- height of output image. [Required] -->
             <height>128</height>
-            <!-- Format for output image(png, jpg, pdf, tiff). [Optional, default:png] -->
+            <!-- Format for output image (png, jpg, pdf, tiff). [Optional, default: png] -->
             <format>png</format>
             <!-- Quality (Optional, default 0.99) -->
             <quality>0.85</quality>
