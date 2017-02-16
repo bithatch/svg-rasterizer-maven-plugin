@@ -1,11 +1,8 @@
 package jp.uphy.maven.svg.mojo;
 
 
-import org.junit.Ignore;
-
 import static jp.uphy.maven.svg.mojo.Constants.MOJO_NAME_RASTERIZE_DIRECTORY;
 
-@Ignore
 public class RasterizeDirectoryMojoTest extends AbstractRasterizeMojoTest {
     public void testRasterizeDirectory() throws Exception {
         executeMojo("rasterize-directory.xml", MOJO_NAME_RASTERIZE_DIRECTORY, RasterizeDirectoryMojo.class);

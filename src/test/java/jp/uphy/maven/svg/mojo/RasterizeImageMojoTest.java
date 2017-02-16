@@ -1,11 +1,8 @@
 package jp.uphy.maven.svg.mojo;
 
 
-import org.junit.Ignore;
-
 import static jp.uphy.maven.svg.mojo.Constants.MOJO_NAME_RASTERIZE_IMAGE;
 
-@Ignore
 public class RasterizeImageMojoTest extends AbstractRasterizeMojoTest {
     public void testRasterizeImage() throws Exception {
         executeMojo("rasterize-image.xml", MOJO_NAME_RASTERIZE_IMAGE, RasterizeImageMojo.class);
