@@ -53,7 +53,7 @@ See also example [pom.xml](https://github.com/uphy/svg-maven-plugin/blob/develop
 ### Rasterize a single SVG image file
 Convert a SVG image to raster images.
 
-Goal: rasterize-image
+#### Goal: `rasterize-image`
 ```xml
 <configuration>
     <!-- Input file path.  Must exist.[Required] -->
@@ -83,7 +83,7 @@ Goal: rasterize-image
 </configuration>
 ```
 
-Using Placeholders for output-path:
+##### Using Placeholders for output-path:
 
 ```xml
 <configuration>
@@ -106,7 +106,7 @@ Using Placeholders for output-path:
 </configuration>
 ```
 
-Using defaults-block for default-settings
+##### Using defaults-block for default-settings
 
 ```xml
 <configuration>
@@ -133,7 +133,7 @@ Using defaults-block for default-settings
 ### Rasterize SVG all images in a directory (non-recursive!)
 Convert SVG images in a directory at once.
 
-Goal: rasterize-directory
+#### Goal: `rasterize-directory`
 ```xml
 <configuration>
     <!-- Input directory path.  Must exist.[Required] -->
@@ -158,7 +158,7 @@ Goal: rasterize-directory
 </configuration>
 ```
 
-Using defaults-block for default-settings
+##### Using defaults-block for default-settings
 
 ```xml
 <configuration>
@@ -181,11 +181,10 @@ Using defaults-block for default-settings
 </configuration>
 ```
 
-
 ### Rasterize a single SVG image for Android
 Convert a SVG image to raster images for multiple resolutions of Android.
 
-Goal: rasterize-android-image
+#### Goal: `rasterize-android-image`
 
 ```xml
 <configuration>
@@ -223,7 +222,8 @@ Goal: rasterize-android-image
 Convert SVG images in a directory to Android multiple resolution images.
 Filename must be a special below format. 
  
-Goal: rasterize-android-batch
+#### Goal: `rasterize-android-directory`
+
 ```xml
 <configuration>
     <!-- Input directory path.  Must exist.[Required] -->
