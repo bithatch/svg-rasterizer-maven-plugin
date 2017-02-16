@@ -1,4 +1,4 @@
-# svg-rasterizer-maven-plugin [![Build Status](https://travis-ci.org/Argelbargel/svg-maven-plugin.svg?branch=master)](https://travis-ci.org/Argelbargel/svg-maven-plugin)
+# svg-rasterizer-maven-plugin [![Build Status](https://travis-ci.org/Argelbargel/svg-rasterizer-maven-plugin.svg?branch=master)](https://travis-ci.org/Argelbargel/svg-rasterizer-maven-plugin)
 
 
 ## Summary
