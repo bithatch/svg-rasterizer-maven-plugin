@@ -195,9 +195,9 @@ Goal: rasterize-android-image
     <destDir>output/</destDir>
     <outputs>
         <output>
-            <!-- width of output image. [Required] -->
+            <!-- width of output image (this width is used for MDPI, other outputs get scaled accordingly). [Required] -->
             <width>128</width>
-            <!-- height of output image. [Required] -->
+            <!-- height of output image (this width is used for MDPI, other outputs get scaled accordingly). [Required] -->
             <height>128</height>
             <!-- "res" directory of Android. [Optional, default:res] -->
             <resDirectory>android/res</resDirectory>
