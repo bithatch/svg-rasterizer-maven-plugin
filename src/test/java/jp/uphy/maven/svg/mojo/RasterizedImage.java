@@ -1,10 +1,6 @@
 package jp.uphy.maven.svg.mojo;
 
 
-import java.awt.*;
-import java.io.File;
-
-
 public class RasterizedImage {
     private final String path;
     private final int width;
@@ -18,20 +14,20 @@ public class RasterizedImage {
         this.format = format;
     }
 
-    public String path() {
+    String path() {
         return path;
     }
 
-    public int width() {
+    int width() {
         return width;
     }
 
-    public int height() {
+    int height() {
         return height;
     }
 
 
-    public String format() {
+    String format() {
         return format;
     }
 }
