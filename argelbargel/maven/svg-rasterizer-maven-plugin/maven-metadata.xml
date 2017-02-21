@@ -3,10 +3,11 @@
   <groupId>argelbargel.maven</groupId>
   <artifactId>svg-rasterizer-maven-plugin</artifactId>
   <versioning>
-    <latest>DEV-SNAPSHOT</latest>
+    <latest>1.0.1-RELEASE</latest>
+    <release>1.0.1-RELEASE</release>
     <versions>
-      <version>DEV-SNAPSHOT</version>
+      <version>1.0.1-RELEASE</version>
     </versions>
-    <lastUpdated>20170221152300</lastUpdated>
+    <lastUpdated>20170221152927</lastUpdated>
   </versioning>
 </metadata>
