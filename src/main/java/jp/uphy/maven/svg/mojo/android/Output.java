@@ -40,6 +40,15 @@ public class Output extends AbstractOutput {
     @Parameter(defaultValue = DEFAULT_ANDROID_RESOLUTIONS)
     private List<String> resolutions;
 
+    public Output() {
+        this(null, 0, 0);
+    }
+
+    Output(String name, int width, int height) {
+        super(width, height);
+        this.name = name;
+    }
+
     @Override
     protected Dimension getSize(File outFile) {
         for (String res : resolutions) {
@@ -71,6 +80,10 @@ public class Output extends AbstractOutput {
         return outFiles;
     }
 
+    String getName() {
+        ensureValidValues();
+        return name;
+    }
 
     private void ensureValidValues() {
         if (name == null) {

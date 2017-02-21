@@ -33,4 +33,15 @@ public class RasterizeAndroidDirectoryMojoTest extends AbstractRasterizeMojoTest
                 new RasterizedImage("argel/drawable-ldpi/image2-36x36.png", 36, 36, "png"),
                 new RasterizedImage("argel/drawable-mdpi/image2-48x48.png", 48, 48, "png"));
     }
+
+    public void testRasterizeImageWithOutputsFromFiles() throws Exception {
+        executeMojo("rasterize-android-directory-outputs-from-files.xml", MOJO_NAME_RASTERIZE_ANDROID_DIRECTORY, RasterizeAndroidDirectoryMojo.class);
+
+        assertRasterizedImages(
+                new RasterizedImage("res/drawable-ldpi/image1-36x36.png", 36, 36, "png"),
+                new RasterizedImage("res/drawable-mdpi/image1-48x48.png", 48, 48, "png"),
+                new RasterizedImage("res/drawable-ldpi/image2-24x24.png", 24, 24, "png"),
+                new RasterizedImage("res/drawable-mdpi/image2-32x32.png", 32, 32, "png"));
+    }
+
 }

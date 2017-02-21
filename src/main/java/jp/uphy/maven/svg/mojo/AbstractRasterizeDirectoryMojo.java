@@ -5,10 +5,13 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import static org.apache.commons.io.filefilter.FileFileFilter.FILE;
 
 
 public abstract class AbstractRasterizeDirectoryMojo extends AbstractRasterizeMojo {
@@ -29,7 +32,7 @@ public abstract class AbstractRasterizeDirectoryMojo extends AbstractRasterizeMo
 
     @Override
     protected List<File> createInputs() {
-        File[] files = inputDir.listFiles();
+        File[] files = inputDir.listFiles((FileFilter) FILE);
         return (files != null)
                 ? Arrays.asList(files)
                 : Collections.<File>emptyList();

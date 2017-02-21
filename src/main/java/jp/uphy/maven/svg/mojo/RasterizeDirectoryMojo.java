@@ -19,6 +19,14 @@ public class RasterizeDirectoryMojo extends AbstractRasterizeDirectoryMojo {
 
     @Override
     public Output createDefaults() {
+        if (defaults == null) {
+            defaults = new Output();
+        }
         return defaults;
+    }
+
+    @Override
+    protected AbstractOutput createOutput(String name, int width, int height) {
+        return new Output(Replacers.NAME.replace(createDefaults().getPath(), name), width, height);
     }
 }

@@ -13,9 +13,6 @@ import static jp.uphy.maven.svg.mojo.Constants.DEFAULT_OUTPUT_FORMAT;
 import static jp.uphy.maven.svg.mojo.Constants.DEFAULT_PATH_PATTERN;
 
 
-/**
- * generic definition of rasterized outputs
- */
 public class Output extends AbstractOutput {
     @Parameter(defaultValue = DEFAULT_PATH_PATTERN)
     private String path;
@@ -24,6 +21,15 @@ public class Output extends AbstractOutput {
      */
     @Parameter(defaultValue = DEFAULT_OUTPUT_FORMAT)
     private String format;
+
+    public Output() {
+        this(null, 0, 0);
+    }
+
+    Output(String path, int width, int height) {
+        super(width, height);
+        this.path = path;
+    }
 
     @Override
     protected Dimension getSize(File outfile) {
@@ -40,6 +46,11 @@ public class Output extends AbstractOutput {
         ensureValidValues();
         String absolutePath = (new File(path).isAbsolute()) ? path : new File(destDir, path).getAbsolutePath();
         return singletonList(new File(absolutePath));
+    }
+
+    String getPath() {
+        ensureValidValues();
+        return path;
     }
 
     private void ensureValidValues() {

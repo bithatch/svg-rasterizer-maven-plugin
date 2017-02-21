@@ -130,6 +130,23 @@ Convert a SVG image to raster images.
 </configuration>
 ```
 
+##### Using the filename of the input-file to determine the dimensions of the outputs
+The filenames must follow the pattern `<name>-'['<width>x<height>[,<width>x<height>...]']'.svg`, e.g. `image-\[48x48,32x32].svg`.
+
+```xml
+<configuration>
+    <!-- see required filename-pattern above -->
+    <inputFile>svg/sample-[48x48,32x32].svg</inputFile>
+    <destDir>output/</destDir>
+    <defaults>
+        <path>{name}-{width}x{height}{ext}</path>
+        <format>png</format>
+        <quality>0.8</quality>
+    </defaults>
+</configuration>
+```
+
+
 ### Rasterize SVG all images in a directory (non-recursive!)
 Convert SVG images in a directory at once.
 
@@ -162,7 +179,7 @@ Convert SVG images in a directory at once.
 
 ```xml
 <configuration>
-    <inputDir>svg/sample.svg</inputDir>
+    <inputDir>svg/images</inputDir>
     <destDir>output/</destDir>
     <defaults>
         <path>{name}-{width}x{height}{ext}</path>
@@ -178,6 +195,19 @@ Convert SVG images in a directory at once.
             <height>256</height>
         </output>
     </outputs>
+</configuration>
+```
+
+##### Using the filename of the input-file to determine the dimensions of the outputs
+The filenames must follow the pattern `<name>-'['<width>x<height>[,<width>x<height>...]']'.svg`, e.g. `image-\[48x48,32x32].svg`.
+
+```xml
+<configuration>
+    <inputDir>svg/images</inputFile>
+    <destDir>output/</destDir>
+    <defaults>
+        <format>png</format>
+    </defaults>
 </configuration>
 ```
 
@@ -218,6 +248,17 @@ Convert a SVG image to raster images for multiple resolutions of Android.
 </configuration>
 ```
 
+##### Using the filename of the input-file to determine the dimensions of the outputs
+The filenames must follow the pattern `<name>-'['<width>x<height>[,<width>x<height>...]']'.svg`, e.g. `image-\[48x48,32x32].svg`.
+
+```xml
+<configuration>
+    <!-- see required filename-pattern above; for android the should exists only one output-definition -->
+    <inputFile>svg/sample-[48x48].svg</inputFile>
+    <destDir>output/</destDir>
+</configuration>
+```
+
 ### Rasterize SVG images in a directory for Android
 Convert SVG images in a directory to Android multiple resolution images.
 Filename must be a special below format. 
@@ -253,5 +294,15 @@ Filename must be a special below format.
             </resolutions>
         </output>        
     </outputs>
+</configuration>
+```
+
+##### Using the filename of the input-file to determine the dimensions of the outputs
+The filenames must follow the pattern `<name>-'['<width>x<height>[,<width>x<height>...]']'.svg`, e.g. `image-\[48x48,32x32].svg`.
+
+```xml
+<configuration>
+    <inputFile>svg/images</inputFile>
+    <destDir>output/</destDir>
 </configuration>
 ```

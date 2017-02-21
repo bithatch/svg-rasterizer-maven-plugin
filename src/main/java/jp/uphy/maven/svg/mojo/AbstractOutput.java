@@ -21,8 +21,16 @@ public abstract class AbstractOutput {
     @Parameter(defaultValue = DEFAULT_QUALITY)
     private float quality = 0.99f;
 
+    protected AbstractOutput(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+
     protected abstract Dimension getSize(File outfile);
+
     protected abstract String getFormat();
+
     protected abstract Collection<File> getOutFiles(File destDir, File inFile) throws MojoFailureException;
 
     float getQuality() {

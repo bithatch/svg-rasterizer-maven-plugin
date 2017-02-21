@@ -15,6 +15,7 @@ package jp.uphy.maven.svg.mojo;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -33,6 +34,15 @@ public class RasterizeImageMojo extends AbstractRasterizeImageMojo {
 
     @Override
     public Output createDefaults() {
+        if (defaults == null) {
+            defaults = new Output();
+        }
         return defaults;
     }
+
+    @Override
+    protected AbstractOutput createOutput(String name, int width, int height) {
+        return new Output(Replacers.NAME.replace(createDefaults().getPath(), name), width, height);
+    }
 }
+

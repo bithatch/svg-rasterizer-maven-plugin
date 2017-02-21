@@ -28,6 +28,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Matcher;
 
 
 /**
@@ -40,7 +41,7 @@ abstract class AbstractRasterizeMojo extends AbstractMojo {
     private File destDir;
 
     @Parameter
-    private List<Output> outputs;
+    private List<AbstractOutput> outputs;
 
 
     AbstractRasterizeMojo() {
@@ -66,7 +67,7 @@ abstract class AbstractRasterizeMojo extends AbstractMojo {
         List<Rasterization> rasterizations = new ArrayList<Rasterization>(inputs.size());
 
         for (File inFile : inputs) {
-            for (AbstractOutput output : outputs) {
+            for (AbstractOutput output : createOutputs(inFile)) {
                 output.fillWithDefaults(createDefaults());
                 rasterizations.addAll(createRasterizations(inFile, destDir, output));
             }
@@ -75,12 +76,37 @@ abstract class AbstractRasterizeMojo extends AbstractMojo {
         return rasterizations;
     }
 
+    private List<AbstractOutput> createOutputs(File inFile) {
+        if (outputs != null && outputs.size() > 0) {
+            return outputs;
+        }
+
+        return createOutputsFromInputFile(inFile);
+    }
+
+    private List<AbstractOutput> createOutputsFromInputFile(File inFile) {
+        List<AbstractOutput> outputsFromFile = new ArrayList<AbstractOutput>();
+
+        Matcher fileMatcher = Constants.OUTPUT_IN_FILE_PATTERN.matcher(inFile.getName());
+        if (fileMatcher.find()) {
+            Matcher outputMatcher = Constants.OUTPUT_SIZE_PATTERN.matcher(fileMatcher.group(2));
+            while (outputMatcher.find()) {
+                String name = fileMatcher.group(1);
+                Integer width = Integer.valueOf(outputMatcher.group(1));
+                Integer height = Integer.valueOf(outputMatcher.group(2));
+                outputsFromFile.add(createOutput(name, width, height));
+            }
+        }
+
+        return outputsFromFile;
+    }
+
     private Collection<Rasterization> createRasterizations(File inFile, File destDir, AbstractOutput output) throws MojoFailureException {
         Collection<Rasterization> rasterizations = new ArrayList<Rasterization>();
 
         for (File outFile : output.getOutFiles(destDir, inFile)) {
-            File outFile1 = Replacers.replaceAll(outFile, inFile, output);
-            rasterizations.add(new Rasterization(inFile, outFile1, output.getSize(outFile1), output.getQuality(), output.getFormat()));
+            File rasterOutFile = Replacers.replaceAll(outFile, inFile, output);
+            rasterizations.add(new Rasterization(inFile, rasterOutFile, output.getSize(outFile), output.getQuality(), output.getFormat()));
         }
 
         return rasterizations;
@@ -88,6 +114,8 @@ abstract class AbstractRasterizeMojo extends AbstractMojo {
 
     protected abstract List<File> createInputs();
     protected abstract AbstractOutput createDefaults();
+
+    protected abstract AbstractOutput createOutput(String name, int width, int height);
 
     private void rasterize(Iterable<Rasterization> rasterizations) throws MojoFailureException, MojoExecutionException {
         Log log = getLog();
@@ -98,10 +126,5 @@ abstract class AbstractRasterizeMojo extends AbstractMojo {
 
     protected static void failure(String pattern, Object... arguments) throws MojoFailureException {
         throw new MojoFailureException(MessageFormat.format(pattern, arguments));
-    }
-
-    static String getFilenameOf(File file) {
-        final int i = file.getName().lastIndexOf('.');
-        return file.getName().substring(0, i);
     }
 }

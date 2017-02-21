@@ -4,10 +4,8 @@ package jp.uphy.maven.svg.mojo;
 import java.io.File;
 import java.util.regex.Pattern;
 
-import static jp.uphy.maven.svg.mojo.AbstractRasterizeMojo.getFilenameOf;
 
-
-enum Replacers {
+public enum Replacers {
     WIDTH("width", new Value() {
         @Override
         public Object get(File inFile, File outFile, AbstractOutput output) {
@@ -24,7 +22,8 @@ enum Replacers {
 
         @Override
         public Object get(File inFile, File outFile, AbstractOutput output) {
-            return getFilenameOf(inFile);
+            int i = inFile.getName().lastIndexOf('.');
+            return (i > 0) ? inFile.getName().substring(0, i) : inFile.getName();
         }
     }),
     EXTENSION("ext", new Value() {
@@ -54,8 +53,12 @@ enum Replacers {
         this.value = value;
     }
 
+    public String replace(String path, String value) {
+        return path.replaceAll(Pattern.quote(pattern), value);
+    }
+
     private String replace(String path, File inFile, File outFile, AbstractOutput output) {
-        return path.replaceAll(Pattern.quote(pattern), String.valueOf(value.get(inFile, outFile, output)));
+        return replace(path, String.valueOf(value.get(inFile, outFile, output)));
     }
 
     private interface Value {

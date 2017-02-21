@@ -27,4 +27,14 @@ public class RasterizeDirectoryMojoTest extends AbstractRasterizeMojoTest {
                 new RasterizedImage("image1+24x24.png", 24, 24, "png"),
                 new RasterizedImage("image2+24x24.png", 24, 24, "png"));
     }
+
+    public void testRasterizeImageWithOutputsFromFiles() throws Exception {
+        executeMojo("rasterize-directory-outputs-from-files.xml", MOJO_NAME_RASTERIZE_DIRECTORY, RasterizeDirectoryMojo.class);
+
+        assertRasterizedImages(
+                new RasterizedImage("48x48/image1.jpg", 48, 48, "jpeg"),
+                new RasterizedImage("32x32/image1.jpg", 32, 32, "jpeg"),
+                new RasterizedImage("32x32/image2.jpg", 32, 32, "jpeg"),
+                new RasterizedImage("16x16/image2.jpg", 16, 16, "jpeg"));
+    }
 }
