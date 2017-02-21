@@ -9,6 +9,8 @@ cache:
   directories:
   - $HOME/.m2/repository
   - $HOME/.m2/wrapper
+before_cache:
+  - rm -rf $HOME/.m2/repository/argelbargel/maven/svg-rasterizer-maven-plugin/
 
 deploy:
   provider: releases
