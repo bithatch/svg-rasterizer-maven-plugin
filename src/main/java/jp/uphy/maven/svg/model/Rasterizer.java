@@ -1,8 +1,6 @@
 package jp.uphy.maven.svg.model;
 
 
-import org.apache.maven.plugin.logging.Log;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -22,14 +20,12 @@ public class Rasterizer<OUTPUT extends OutputDefinition> {
     private final SvgTool svgTool;
     private final Methods<OUTPUT> methods;
     private final File destDir;
-    private final Log log;
 
 
-    public Rasterizer(Methods<OUTPUT> methods, File destDir, Log log) {
+    public Rasterizer(Methods<OUTPUT> methods, File destDir) {
         this.svgTool = new SvgTool();
         this.methods = methods;
         this.destDir = destDir;
-        this.log = log;
     }
 
     public void rasterize(List<File> inputs, List<OutputDefinition<OUTPUT>> outputs) throws IOException {
@@ -39,7 +35,7 @@ public class Rasterizer<OUTPUT extends OutputDefinition> {
     private void rasterize(Iterable<Rasterization> rasterizations) throws IOException {
         for (Rasterization rasterization : rasterizations) {
             try {
-                rasterization.execute(svgTool, log);
+                rasterization.execute(svgTool, methods);
             } catch (Exception e) {
                 throw new IOException(MessageFormat.format("Failure to rasterize : {0}", rasterization));
             }
@@ -97,9 +93,8 @@ public class Rasterizer<OUTPUT extends OutputDefinition> {
     }
 
     public interface Methods<OUTPUT extends OutputDefinition> {
+        void log(String message);
         OUTPUT createDefaults();
-
         OutputDefinition<OUTPUT> createOutput(String name, int width, int height);
     }
-
 }

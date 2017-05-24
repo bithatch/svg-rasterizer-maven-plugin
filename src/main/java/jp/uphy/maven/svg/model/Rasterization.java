@@ -1,10 +1,10 @@
 package jp.uphy.maven.svg.model;
 
 
+import jp.uphy.maven.svg.model.Rasterizer.Methods;
 import org.apache.batik.apps.rasterizer.DestinationType;
 import org.apache.batik.apps.rasterizer.SVGConverterException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.plugin.logging.Log;
 
 import java.awt.*;
 import java.io.File;
@@ -28,8 +28,8 @@ class Rasterization {
         this.extension = (format != null) ? format : Rasterizer.DEFAULT_OUTPUT_FORMAT;
     }
 
-    void execute(SvgTool svgTool, Log log) throws IOException, SVGConverterException {
-        log.info(MessageFormat.format("Rasterizing[{0}]", this));
+    void execute(SvgTool svgTool, Methods methods) throws IOException, SVGConverterException {
+        methods.log(MessageFormat.format("Rasterizing[{0}]", this));
         createOutputDirectory(output.getParentFile());
         svgTool.rasterize(input, output, size.width, size.height, quality, determineDestinationType(extension));
     }

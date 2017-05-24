@@ -44,8 +44,9 @@ abstract class AbstractRasterizeMojo extends AbstractMojo implements Rasterizer.
     @Override
     public final void execute() throws MojoExecutionException, MojoFailureException {
         validate(outputs);
+
         try {
-            new Rasterizer<AbstractOutput>(this, destDir, getLog()).rasterize(createInputs(), outputs);
+            new Rasterizer<AbstractOutput>(this, destDir).rasterize(createInputs(), outputs);
         } catch (IOException e) {
             throw new MojoExecutionException(e.getMessage());
         }
@@ -58,6 +59,12 @@ abstract class AbstractRasterizeMojo extends AbstractMojo implements Rasterizer.
         if (destDir.exists() && !destDir.isDirectory()) {
             failure("''{0}'' exists but is no directory", "destDir");
         }
+    }
+
+
+    @Override
+    public final void log(String message) {
+        getLog().info(message);
     }
 
     protected abstract List<File> createInputs();
