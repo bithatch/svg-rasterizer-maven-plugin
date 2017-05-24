@@ -1,17 +1,13 @@
 package jp.uphy.maven.svg.mojo;
 
 
-import org.apache.maven.plugin.MojoFailureException;
+import jp.uphy.maven.svg.model.OutputDefinition;
 import org.apache.maven.plugins.annotations.Parameter;
-
-import java.awt.*;
-import java.io.File;
-import java.util.Collection;
 
 import static jp.uphy.maven.svg.mojo.Constants.DEFAULT_QUALITY;
 
 
-public abstract class AbstractOutput {
+public abstract class AbstractOutput<DEFAULTS extends AbstractOutput> implements OutputDefinition<DEFAULTS> {
     @Parameter(required = true)
     protected int width;
 
@@ -27,17 +23,12 @@ public abstract class AbstractOutput {
     }
 
 
-    protected abstract Dimension getSize(File outfile);
-
-    protected abstract String getFormat();
-
-    protected abstract Collection<File> getOutFiles(File destDir, File inFile) throws MojoFailureException;
-
-    float getQuality() {
+    @Override
+    public float getQuality() {
         return quality;
     }
 
-    protected void fillWithDefaults(AbstractOutput defaults) {
+    public void fillWithDefaults(AbstractOutput defaults) {
         if (defaults != null) {
             if (width < 1) {
                 width = defaults.width;

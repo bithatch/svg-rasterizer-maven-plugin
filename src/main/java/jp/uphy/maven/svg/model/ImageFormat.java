@@ -24,7 +24,7 @@ import java.util.Arrays;
 /**
  * @author Yuhi Ishikura
  */
-public enum ImageFormat {
+enum ImageFormat {
     PNG(DestinationType.PNG, "png"),
     JPEG(DestinationType.JPEG, "jpg", "jpeg"),
     TIFF(DestinationType.TIFF, "tiff", "tif"),
@@ -37,7 +37,7 @@ public enum ImageFormat {
         this.extensions = extensions;
     }
 
-    public static ImageFormat fromExtension(String extension) {
+    static ImageFormat fromExtension(String extension) {
         for (ImageFormat f : values()) {
             for (String ext : f.extensions) {
                 if (ext.equals(extension)) {
@@ -48,7 +48,7 @@ public enum ImageFormat {
         throw new IllegalArgumentException(MessageFormat.format("Unsupported format:{0} Specify {1}", extension, values()));
     }
 
-    public DestinationType getDestinationType() {
+    DestinationType getDestinationType() {
         return destinationType;
     }
 

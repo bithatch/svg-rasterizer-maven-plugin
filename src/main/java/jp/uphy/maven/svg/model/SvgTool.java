@@ -15,40 +15,27 @@
  */
 package jp.uphy.maven.svg.model;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.PrintStream;
 
 import org.apache.batik.apps.rasterizer.DestinationType;
 import org.apache.batik.apps.rasterizer.SVGConverter;
 import org.apache.batik.apps.rasterizer.SVGConverterException;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.PrintStream;
+
 
 /**
  * @author Yuhi Ishikura
  */
-public class SvgTool {
-
+class SvgTool {
     private final SVGConverter svgConverter;
 
-    /**
-     * {@link SvgTool}オブジェクトを構築します。
-     */
-    public SvgTool() {
+    SvgTool() {
         this.svgConverter = new SVGConverter();
     }
 
-    /**
-     * SVGファイルを、PNGに変換します。
-     *
-     * @param svgFile         SVGファイル
-     * @param output          出力ファイル
-     * @param width    最大の画像サイズ
-     * @param height   最大の画像サイズ
-     * @param destinationType 出力ファイルタイプ
-     * @throws org.apache.batik.apps.rasterizer.SVGConverterException 不正なSVGが与えられた場合
-     */
-    public void rasterize(File svgFile, File output, int width, int height, float quality, DestinationType destinationType) throws SVGConverterException {
+    void rasterize(File svgFile, File output, int width, int height, float quality, DestinationType destinationType) throws SVGConverterException {
         if (width > height) {
             this.svgConverter.setWidth(width);
         } else {
@@ -66,5 +53,4 @@ public class SvgTool {
             System.setOut(oldSysOut);
         }
     }
-
 }

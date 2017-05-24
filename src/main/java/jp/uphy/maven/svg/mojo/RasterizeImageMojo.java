@@ -16,6 +16,8 @@ package jp.uphy.maven.svg.mojo;
  * limitations under the License.
  */
 
+import jp.uphy.maven.svg.model.OutputDefinition;
+import jp.uphy.maven.svg.model.Replacers;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -41,7 +43,7 @@ public class RasterizeImageMojo extends AbstractRasterizeImageMojo {
     }
 
     @Override
-    protected AbstractOutput createOutput(String name, int width, int height) {
+    public OutputDefinition<AbstractOutput> createOutput(String name, int width, int height) {
         return new Output(Replacers.NAME.replace(createDefaults().getPath(), name), width, height);
     }
 }

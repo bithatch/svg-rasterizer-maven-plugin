@@ -16,9 +16,10 @@ package jp.uphy.maven.svg.mojo.android;
  * limitations under the License.
  */
 
+import jp.uphy.maven.svg.model.OutputDefinition;
+import jp.uphy.maven.svg.model.Replacers;
 import jp.uphy.maven.svg.mojo.AbstractOutput;
 import jp.uphy.maven.svg.mojo.AbstractRasterizeDirectoryMojo;
-import jp.uphy.maven.svg.mojo.Replacers;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -46,7 +47,7 @@ public class RasterizeAndroidDirectoryMojo extends AbstractRasterizeDirectoryMoj
     }
 
     @Override
-    protected Output createDefaults() {
+    public Output createDefaults() {
         if (defaults == null) {
             defaults = new Output();
         }
@@ -55,7 +56,7 @@ public class RasterizeAndroidDirectoryMojo extends AbstractRasterizeDirectoryMoj
     }
 
     @Override
-    protected AbstractOutput createOutput(String name, int width, int height) {
+    public OutputDefinition<AbstractOutput> createOutput(String name, int width, int height) {
         return new Output(Replacers.NAME.replace(createDefaults().getName(), name), width, height);
     }
 }

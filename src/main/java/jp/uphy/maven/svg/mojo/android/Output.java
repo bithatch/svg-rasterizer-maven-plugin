@@ -3,11 +3,11 @@ package jp.uphy.maven.svg.mojo.android;
 
 import jp.uphy.maven.svg.model.AndroidScreenResolution;
 import jp.uphy.maven.svg.mojo.AbstractOutput;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,7 +20,7 @@ import static jp.uphy.maven.svg.mojo.android.Constants.DRAWABLE_OUTPUT_PREFIX;
 import static jp.uphy.maven.svg.mojo.android.Constants.OUTPUT_FORMAT;
 
 
-public class Output extends AbstractOutput {
+public class Output extends AbstractOutput<AbstractOutput> {
     @Parameter(defaultValue = DEFAULT_ANDROID_RES_DIR)
     private String resDir;
 
@@ -50,7 +50,7 @@ public class Output extends AbstractOutput {
     }
 
     @Override
-    protected Dimension getSize(File outFile) {
+    public Dimension getSize(File outFile) {
         for (String res : resolutions) {
             if (outFile.getPath().contains(DRAWABLE_OUTPUT_PREFIX + res.toLowerCase())) {
                 double scale = AndroidScreenResolution.valueOf(res).getScale();
@@ -62,12 +62,12 @@ public class Output extends AbstractOutput {
     }
 
     @Override
-    protected String getFormat() {
+    public String getFormat() {
         return OUTPUT_FORMAT;
     }
 
     @Override
-    protected Collection<File> getOutFiles(File destDir, File inFile) throws MojoFailureException {
+    public Collection<File> getOutFiles(File destDir, File inFile) throws IOException {
         ensureValidValues();
 
         Collection<File> outFiles = new ArrayList<File>(resolutions.size());
@@ -100,7 +100,7 @@ public class Output extends AbstractOutput {
     }
 
     @Override
-    protected void fillWithDefaults(AbstractOutput defaults) {
+    public void fillWithDefaults(AbstractOutput defaults) {
         super.fillWithDefaults(defaults);
         if (defaults != null && getClass().isInstance(defaults)) {
             if (name == null) {
