@@ -6,9 +6,9 @@
 	<groupId>uk.co.bithatch</groupId>
     <packaging>maven-plugin</packaging>
     <artifactId>svg-rasterizer-maven-plugin</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2</version>
     <name>SVG-Rasterizer Maven plugin</name>	
-
+	<description>This plugin converts SVG files to raster images like png, jpg. Also supports converting to multiple resolutions for Android.</description>
 	<url>https://github.com/bithatch/svg-rasterizer-maven-plugin</url>
 
 	<properties>
@@ -26,13 +26,23 @@
 		</license>
 	</licenses>
 	<scm>
-		<url>https://github.com/brett-smith/FX-BorderlessScene/</url>
-		<connection>scm:git:https://github.com/brett-smith/FX-BorderlessScene.git</connection>
-		<developerConnection>scm:git:https://github.com/brett-smith/FX-BorderlessScene.git</developerConnection>
+		<url>https://github.com/bithatch/svg-rasterizer-plugin.git/</url>
+		<connection>scm:git:https://github.com/bithatch/svg-rasterizer-plugin.git</connection>
+		<developerConnection>scm:git:https://github.com/bithatch/svg-rasterizer-plugin.git</developerConnection>
 	</scm>
 	<developers>
 		<developer>
-			<id>brett</id>
+			<id>uphy</id>
+			<name>Yuhi Ishikura</name>
+			<email>yuhi.ishikura@gmail.com</email>
+		</developer>
+		<developer>
+			<id>Argelbargel</id>
+			<name>Karsten Kraus</name>
+			<email>unknown@unknown.com</email>
+		</developer>
+		<developer>
+			<id>brett-smith</id>
 			<name>Brett Smith</name>
 			<email>tanktarta@gmail.com</email>
 		</developer>
