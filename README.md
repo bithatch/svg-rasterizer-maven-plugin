@@ -1,5 +1,8 @@
-# svg-rasterizer-maven-plugin [![Build Status](https://travis-ci.org/Argelbargel/svg-rasterizer-maven-plugin.svg?branch=master)](https://travis-ci.org/Argelbargel/svg-rasterizer-maven-plugin)
+# svg-rasterizer-maven-plugin 
 
+## Another Fork
+
+This particular fork was made to get the plugin into Maven central as the GitHub repositories in the unmaintained upstream projects no longer work.
 
 ## Summary
 
@@ -17,24 +20,13 @@ which i needed for my projects. There will not be much development here after th
 Edit your pom.xml as follows.
 See also example [pom.xml](https://github.com/uphy/svg-maven-plugin/blob/develop/sample/pom.xml).
 
-1.Add plugin repository.
-
-```xml
-<pluginRepositories>
-    <pluginRepository>
-        <id>svg-rasterizer-maven-plugin-mvn-repo</id>
-        <url>https://raw.githubusercontent.com/Argelbargel/svg-rasterizer-maven-plugin/mvn-repo/</url>
-    </pluginRepository>
-</pluginRepositories>
-```
-
-2.Add plugin.
+1.Add plugin.
 
 ```xml
 <plugin>
-    <groupId>argelbargel.maven</groupId>
+    <groupId>uk.co.bithatch</groupId>
     <artifactId>svg-rasterizer-maven-plugin</artifactId>
-    <version>1.0</version>
+    <version>1.2</version>
     <executions>
         <execution>
             <id>Rasterize</id>
